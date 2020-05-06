@@ -1,5 +1,6 @@
 package server.repositories;
 
+import server.models.Climate;
 import server.models.LogValue;
 import server.models.Status;
 import java.io.IOException;
@@ -16,15 +17,14 @@ public class StatusLogDao extends SqlDao
         super();
     }
 
-    public LogValue[] getClimateLog(int days, ClimateProperty climateProperty) throws SQLException, IOException, ClassNotFoundException
+    public LogValue[] getClimateLog(int days, String climateProperty) throws SQLException, IOException, ClassNotFoundException
     {
-        List<LogValue> values = new ArrayList<>(days);
         try
         {
             connect();
 
             PreparedStatement statement = prepareStatement(
-                    "select " + climateProperty.toString() + ", Created from Conditioner.StatusLog where datediff(curdate(), Created) < ? " +
+                    "select " + climateProperty + ", Created from Conditioner.StatusLog where datediff(curdate(), Created) < ? " +
                             "order by Created asc");
 
             return getLog(days, statement);
@@ -79,10 +79,14 @@ public class StatusLogDao extends SqlDao
             PreparedStatement statement = prepareStatement(
                     "insert into Conditioner.StatusLog(Temperature, Humidity, Lumen, EnergySinceMidnight) " +
                             "values(?, ?, ?, ?)");
-            statement.setFloat(1, status.getClimate().getTemperature());
-            statement.setFloat(2, status.getClimate().getHumidity());
-            statement.setFloat(3, status.getClimate().getLumen());
-            statement.setFloat(4, status.getUsedEnergySinceMidnight());
+            statement.setFloat(1,
+                    status.getClimate().getProperty(Climate.TEMPERATURE));
+            statement.setFloat(2,
+                    status.getClimate().getProperty((Climate.HUMIDITY)));
+            statement.setFloat(3,
+                    status.getClimate().getProperty(Climate.LUMEN));
+            statement.setFloat(4,
+                    status.getUsedEnergySinceMidnight());
             //statement.setTimestamp(5, new Timestamp(LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0)) * 1000));
 
             statement.executeUpdate();

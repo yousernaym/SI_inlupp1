@@ -12,17 +12,16 @@ public class Main
     public static void main(String[] args)
     {
         RestTemplate rt = new RestTemplate();
-        float temp = rt.getForObject("http://localhost:8080/current/temperature", float.class);
+        float temp = rt.getForObject("http://localhost:8080/current/climate/lumen", float.class);
         System.out.println(temp);
-//        LogValue[] log = rt.getForObject("http://localhost:8080/log/temperature/3", LogValue[].class);
-//        for (LogValue value : log)
-//        {
-//            System.out.print(value.getValue() + " | ");
-//            System.out.println(value.getCreated());
-//        }
-//        Response res = rt.postForObject("http://localhost:8080/current/temperature/"+13, "", Response.class);
-//        printResponse(res);
-
+        LogValue[] log = rt.getForObject("http://localhost:8080/log/climate/lumen/7", LogValue[].class);
+        for (LogValue value : log)
+        {
+            System.out.print(value.getValue() + " | ");
+            System.out.println(value.getCreated());
+        }
+        Response res = rt.postForObject("http://localhost:8080/current/climate/lumen/" + 0.2f, "", Response.class);
+        printResponse(res);
     }
 
     static void printResponse(Response res)

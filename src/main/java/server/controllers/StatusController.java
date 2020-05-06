@@ -21,57 +21,30 @@ public class StatusController
     {
     }
 
-    @GetMapping(value = "/current/{climateProperty}", headers = "Accept=application/json")
-    public float getCurrentClimate(@PathVariable String climateProperty)
+    @GetMapping(value = "/current/climate/{property}", headers = "Accept=application/json")
+    public float getCurrentClimate(@PathVariable String property)
     {
-        return currentStatus.getClimate().getProperty(ClimateProperty.valueOf("Temperature"));
-    }
-
-    @GetMapping("/current/humidity")
-    public float getCurrentHumidity()
-    {
-        return currentStatus.getClimate().getHumidity();
-    }
-
-    @GetMapping("/current/lumen")
-    public float getCurrentLumen()
-    {
-        return currentStatus.getClimate().getLumen();
+        return currentStatus.getClimate().getProperty(property);
     }
 
     @GetMapping("/current/climate")
-    public Climate getCurrentClimate() throws SQLException, IOException, ClassNotFoundException
+    public Climate getCurrentClimate()
     {
         return currentStatus.getClimate();
     }
 
-    @PostMapping("/current/temperature/{value}")
-    public Response setCurrentTemperature(@PathVariable float value)
+    @PostMapping("/current/climate/{property}/{value}")
+    public Response setCurrentClimate(@PathVariable String property, @PathVariable float value)
     {
-        currentStatus.getClimate().setTemperature(value);
-        return new Response(200, "Temperature set to " + value);
+        currentStatus.getClimate().setProperty(property, value);
+        return new Response(200, property + " set to " + value);
     }
 
-    @PostMapping("/current/humidity/{value}")
-    public Response setCurrentHumidity(@PathVariable float value)
+    @GetMapping("/log/climate/{property}/{days}")
+    public LogValue[] getClimateLog(@PathVariable String property, @PathVariable int days) throws SQLException, IOException, ClassNotFoundException
     {
-        currentStatus.getClimate().setHumidity(value);
-        return new Response(200, "Humidity set to " + value);
+        return statusLogDao.getClimateLog(days, property);
     }
-
-    @PostMapping("/current/lumen/{value}")
-    public Response setCurrentLumen(@PathVariable float value)
-    {
-        currentStatus.getClimate().setLumen(value);
-        return new Response(200, "Lumen set to " + value);
-    }
-
-    @GetMapping("/log/{climateProperty}/{days}")
-    public LogValue[] getClimateLog(@PathVariable String climateProperty, @PathVariable int days) throws SQLException, IOException, ClassNotFoundException
-    {
-        return statusLogDao.getClimateLog(days, ClimateProperty.valueOf(climateProperty));
-    }
-
 
 
 }

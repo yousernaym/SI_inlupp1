@@ -3,60 +3,35 @@ package server.models;
 import server.repositories.ClimateProperty;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Climate
 {
-    private float temperature;
-    private float humidity;
-    private float lumen;
+    public final static String TEMPERATURE = "temperature";
+    public final static String HUMIDITY = "humidity";
+    public final static String LUMEN = "lumen";
 
-    public Climate(float temperature, float humidity, float lumen)
-    {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.lumen = lumen;
-    }
+    private Map<String, Float> properties = new HashMap<>();
 
-    public float getHumidity()
+    public Climate()
     {
-        return humidity;
-    }
-
-    public void setHumidity(float humidity)
-    {
-        this.humidity = humidity;
-    }
-
-    public float getTemperature()
-    {
-        return temperature;
-    }
-
-    public void setTemperature(float temperature)
-    {
-        this.temperature = temperature;
-    }
-
-    public float getLumen()
-    {
-        return lumen;
-    }
-
-    public void setLumen(float lumen)
-    {
-        this.lumen = lumen;
+        properties.put(TEMPERATURE, 0f);
+        properties.put(HUMIDITY, 0f);
+        properties.put(LUMEN, 0f);
     }
 
     public float getProperty(String property)
     {
-        if (property == ClimateProperty.Temperature)
-            return temperature;
-        else if (property == ClimateProperty.Humidity)
-            return humidity;
-        else if (property == ClimateProperty.Lumen)
-            return lumen;
-        else
+        if (!properties.containsKey(property))
             throw new IllegalArgumentException();
+        return properties.get(property);
+    }
+
+    public float setProperty(String property, float value)
+    {
+        if (!properties.containsKey(property))
+            throw new IllegalArgumentException();
+        return properties.put(property, value);
     }
 }
 

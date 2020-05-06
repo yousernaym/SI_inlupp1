@@ -2,7 +2,13 @@ package server.models;
 
 public class Status
 {
-    private Climate climate = new Climate(30, 0.5f, 0.7f);
+    private Climate climate = new Climate();
+    public Status()
+    {
+        climate.setProperty(Climate.TEMPERATURE, 31);
+        climate.setProperty(Climate.HUMIDITY, 0.5f);
+        climate.setProperty(Climate.LUMEN, 0.7f);
+    }
 
     public Climate getClimate()
     {
