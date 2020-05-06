@@ -1,4 +1,4 @@
 package server.repositories;
 
-public enum StatusField
+public enum ClimateProperty
 {Temperature, Humidity, Lumen, EnergySinceMidnight}

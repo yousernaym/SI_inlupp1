@@ -2,16 +2,16 @@ package server.models;
 
 public class Status
 {
-    private Environment environment;
+    private Climate climate = new Climate(30, 0.5f, 0.7f);
 
-    public Environment getEnvironment()
+    public Climate getClimate()
     {
-        return environment;
+        return climate;
     }
 
-    public void setEnvironment(Environment environment)
+    public void setClimate(Climate climate)
     {
-        this.environment = environment;
+        this.climate = climate;
     }
 
     public float getUsedEnergySinceMidnight()

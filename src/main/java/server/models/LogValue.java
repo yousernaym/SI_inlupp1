@@ -1,19 +1,26 @@
 package server.models;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-
 public class LogValue
 {
     private float value;
-    private LocalDateTime created;
+    private String created;
 
-    public LocalDateTime getCreated()
+    public LogValue()
+    {
+
+    }
+    public LogValue(float value, String created)
+    {
+        this.value = value;
+        this.created = created;
+    }
+
+    public String getCreated()
     {
         return created;
     }
 
-    public void setCreated(LocalDateTime created)
+    public void setCreated(String created)
     {
         this.created = created;
     }
