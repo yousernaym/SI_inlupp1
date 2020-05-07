@@ -5,7 +5,6 @@ import server.models.Climate;
 import server.models.LogValue;
 import server.models.Response;
 import server.models.Status;
-import server.repositories.ClimateProperty;
 import server.repositories.StatusLogDao;
 
 import java.io.IOException;
@@ -33,11 +32,18 @@ public class StatusController
         return currentStatus.getClimate();
     }
 
-    @PostMapping("/current/climate/{property}/{value}")
-    public Response setCurrentClimate(@PathVariable String property, @PathVariable float value)
+    @GetMapping(value = "/energy", headers="Accept=application/json")
+    public float getCurrentEnergy()
     {
-        currentStatus.getClimate().setProperty(property, value);
-        return new Response(200, property + " set to " + value);
+        return currentStatus.getUsedEnergySinceMidnight();
+    }
+
+    @PostMapping("/current/climate/{property}")
+    public Response setCurrentClimate(@PathVariable String property, @RequestBody String value)
+    {
+        float parsedValue = Float.parseFloat(value);
+        currentStatus.getClimate().setProperty(property, parsedValue);
+        return new Response(200, property + " set to " + parsedValue);
     }
 
     @GetMapping("/log/climate/{property}/{days}")
@@ -46,5 +52,17 @@ public class StatusController
         return statusLogDao.getClimateLog(days, property);
     }
 
-
+    @PostMapping("/logCurrentStatus")
+    public Response logCurrentStatus()
+    {
+        try
+        {
+            statusLogDao.log(currentStatus);
+        } catch (SQLException e)
+        {
+            return new Response(500, e.getMessage());
+        }
+        return new Response(200, "Log entry created");
+    }
 }
+

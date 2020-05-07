@@ -65,13 +65,13 @@ public class StatusLogDao extends SqlDao
         {
             LogValue logValue = new LogValue(
                     rs.getFloat(1),
-                    rs.getTimestamp(2).toString());
+                    rs.getTimestamp(2).toInstant().toString());
             values.add(logValue);
         }
         return values.toArray(new LogValue[values.size()]);
     }
 
-    public void log(Status status) throws SQLException, IOException, ClassNotFoundException
+    public void log(Status status) throws SQLException
     {
         try
         {

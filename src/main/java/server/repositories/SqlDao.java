@@ -25,13 +25,13 @@ public class SqlDao
         connection = DriverManager.getConnection(properties.getProperty("connectionString"), properties);
     }
 
-    protected ResultSet executeQuery(String query) throws SQLException, IOException, ClassNotFoundException
+    protected ResultSet executeQuery(String query) throws SQLException
     {
         Statement s = connection.createStatement();
         return s.executeQuery(query);
     }
 
-    protected PreparedStatement prepareStatement(String query) throws SQLException, IOException, ClassNotFoundException
+    protected PreparedStatement prepareStatement(String query) throws SQLException
     {
         return connection.prepareStatement(query);
     }
