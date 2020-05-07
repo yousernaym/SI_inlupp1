@@ -12,12 +12,12 @@ import java.util.List;
 
 public class StatusLogDao extends SqlDao
 {
-    public StatusLogDao() throws ClassNotFoundException, IOException, SQLException
+    public StatusLogDao() throws ClassNotFoundException, IOException
     {
         super();
     }
 
-    public LogValue[] getClimateLog(int days, String climateProperty) throws SQLException, IOException, ClassNotFoundException
+    public LogValue[] getClimateLog(int days, String climateProperty) throws SQLException
     {
         try
         {
@@ -34,7 +34,7 @@ public class StatusLogDao extends SqlDao
         }
     }
 
-    public float getEnergyCost(int days, float kwhCost) throws SQLException, IOException, ClassNotFoundException
+    public float getEnergyCost(int days, float kwhCost) throws SQLException
     {
         try
         {

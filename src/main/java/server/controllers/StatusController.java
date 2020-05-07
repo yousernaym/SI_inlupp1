@@ -16,7 +16,7 @@ public class StatusController
     private Status currentStatus = new Status();
     private StatusLogDao statusLogDao = new StatusLogDao();
 
-    public StatusController() throws SQLException, IOException, ClassNotFoundException
+    public StatusController() throws IOException, ClassNotFoundException
     {
     }
 
@@ -38,16 +38,15 @@ public class StatusController
         return currentStatus.getUsedEnergySinceMidnight();
     }
 
-    @PostMapping("/current/climate/{property}")
-    public Response setCurrentClimate(@PathVariable String property, @RequestBody String value)
+    @PostMapping("/current/climate/{property}/{value}")
+    public Response setCurrentClimate(@PathVariable String property, @PathVariable float value)
     {
-        float parsedValue = Float.parseFloat(value);
-        currentStatus.getClimate().setProperty(property, parsedValue);
-        return new Response(200, property + " set to " + parsedValue);
+        currentStatus.getClimate().setProperty(property, value);
+        return new Response(200, property + " set to " + value);
     }
 
     @GetMapping("/log/climate/{property}/{days}")
-    public LogValue[] getClimateLog(@PathVariable String property, @PathVariable int days) throws SQLException, IOException, ClassNotFoundException
+    public LogValue[] getClimateLog(@PathVariable String property, @PathVariable int days) throws SQLException
     {
         return statusLogDao.getClimateLog(days, property);
     }
@@ -63,6 +62,12 @@ public class StatusController
             return new Response(500, e.getMessage());
         }
         return new Response(200, "Log entry created");
+    }
+
+    @GetMapping(value="/log/energyCost/{days}/{kwhCost}", headers="Accept=application/json")
+    public float getEnergyCost(@PathVariable int days, @PathVariable float kwhCost) throws SQLException
+    {
+        return statusLogDao.getEnergyCost(days, kwhCost);
     }
 }
 

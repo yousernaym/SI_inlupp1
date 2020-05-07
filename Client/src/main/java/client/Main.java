@@ -20,12 +20,14 @@ public class Main
             System.out.print(value.getValue() + " | ");
             System.out.println(value.getCreated());
         }
-        Response res = rt.postForObject("http://localhost:8080/current/climate/lumen", "0.27", Response.class);
+        Response res = rt.postForObject("http://localhost:8080/current/climate/lumen/0.27/", "", Response.class);
         printResponse(res);
 
         float energy = rt.getForObject("http://localhost:8080/energy", float.class);
         System.out.println("Energy: " + energy);
 
+        float cost = rt.getForObject("http://localhost:8080/log/energyCost/5/1.2/", float.class);
+        System.out.println("Cost: " + cost);
         //res = rt.postForObject("http://localhost:8080/logCurrentStatus", "", Response.class);
         //printResponse(res);
     }
