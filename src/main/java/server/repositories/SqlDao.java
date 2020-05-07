@@ -22,7 +22,8 @@ public class SqlDao
 
     protected void connect() throws SQLException
     {
-        connection = DriverManager.getConnection(properties.getProperty("connectionString"), properties);
+        connection = DriverManager.getConnection(
+                properties.getProperty("connectionString"), properties);
     }
 
     protected ResultSet executeQuery(String query) throws SQLException

@@ -59,7 +59,7 @@ public class Main
 
     private static void showEnergyCost()
     {
-        System.out.println("Ange kostnad per kWh: ");
+        System.out.print("Ange kostnad per kWh: ");
         String line = scanner.nextLine();
         float kwhCost = Float.parseFloat(line);
         Map<String, Float> arg = new HashMap<>();
@@ -73,12 +73,12 @@ public class Main
     {
         LogValue[] log = restTemplate.getForObject(
                 "http://localhost:8080/log/climate/" + propertyType + "/7", LogValue[].class);
+        System.out.println(propertyType + ":");
         for (LogValue value : log)
         {
             System.out.print(value.getValue() + " | ");
             System.out.println(value.getCreated());
         }
-
     }
 
     private static void showUsedEnergy()
@@ -113,21 +113,21 @@ public class Main
         Map<String, Float> arg = new HashMap<>();
         arg.put("value", value);
         Response res = restTemplate.postForObject(
-                "http://localhost:8080/current/climate/" + propertyType + "/{value}", "", Response.class, arg);
+                "http://localhost:8080/climate/" + propertyType + "/{value}", "", Response.class, arg);
         printResponse(res);
     }
 
     private static void showClimate(String propertyType)
     {
         float value = restTemplate.getForObject(
-                "http://localhost:8080/current/climate/" + propertyType, float.class);
+                "http://localhost:8080/climate/" + propertyType, float.class);
         System.out.println(propertyType + ": " + value);
     }
 
     private static void showClimate()
     {
         Climate climate = restTemplate.getForObject(
-                "http://localhost:8080/current/climate", Climate.class);
+                "http://localhost:8080/climate", Climate.class);
         for (Map.Entry<String, Float> property : climate.getProperties())
             System.out.println(property.getKey() + ": " + property.getValue());
     }

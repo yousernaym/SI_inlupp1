@@ -24,7 +24,8 @@ public class StatusLogDao extends SqlDao
             connect();
 
             PreparedStatement statement = prepareStatement(
-                    "select " + climateProperty + ", Created from Conditioner.StatusLog where datediff(curdate(), Created) < ? " +
+                    "select " + climateProperty + ", Created from Conditioner.StatusLog " +
+                            "where datediff(curdate(), Created) <= ? " +
                             "order by Created asc");
 
             return getLog(days, statement);
@@ -41,13 +42,16 @@ public class StatusLogDao extends SqlDao
             connect();
 
             PreparedStatement statement = prepareStatement(
-                    "select max(EnergySinceMidnight), max(Created) from Conditioner.StatusLog where datediff(curdate(), Created) < ? " +
+                    "select max(EnergySinceMidnight), max(Created) " +
+                            "from Conditioner.StatusLog " +
+                            " where datediff(curdate(), Created) <= ? " +
                             "group by date(Created)");
 
             LogValue[] kwhList = getLog(days, statement);
             float totalCost = 0;
             for (LogValue kwh : kwhList)
-                totalCost += kwh.getValue() * kwhCost;
+                totalCost += kwh.getValue();
+            totalCost *= kwhCost;
             return totalCost;
         } finally
         {

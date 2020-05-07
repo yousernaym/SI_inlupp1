@@ -1,7 +1,5 @@
 package server.models;
 
-import server.repositories.ClimateProperty;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

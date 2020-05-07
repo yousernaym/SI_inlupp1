@@ -6,18 +6,13 @@ public class Status
     public Status()
     {
         climate.setProperty(Climate.TEMPERATURE, 31);
-        climate.setProperty(Climate.HUMIDITY, 0.5f);
-        climate.setProperty(Climate.LUMEN, 0.7f);
+        climate.setProperty(Climate.HUMIDITY, 50);
+        climate.setProperty(Climate.LUMEN, 70);
     }
 
     public Climate getClimate()
     {
         return climate;
-    }
-
-    public void setClimate(Climate climate)
-    {
-        this.climate = climate;
     }
 
     public float getUsedEnergySinceMidnight()
