@@ -4,6 +4,7 @@ import server.repositories.ClimateProperty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Climate
 {
@@ -32,6 +33,11 @@ public class Climate
         if (!properties.containsKey(property))
             throw new IllegalArgumentException();
         return properties.put(property, value);
+    }
+
+    public Set<Map.Entry<String, Float>> getProperties()
+    {
+        return properties.entrySet();
     }
 }
 

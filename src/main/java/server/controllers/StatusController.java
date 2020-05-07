@@ -1,5 +1,6 @@
 package server.controllers;
 
+import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.*;
 import server.models.Climate;
 import server.models.LogValue;
@@ -9,6 +10,7 @@ import server.repositories.StatusLogDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 @RestController
 public class StatusController
@@ -20,16 +22,16 @@ public class StatusController
     {
     }
 
-    @GetMapping(value = "/current/climate/{property}", headers = "Accept=application/json")
+    @GetMapping(value = "/current/climate/{property}", produces = "application/json")
     public float getCurrentClimate(@PathVariable String property)
     {
         return currentStatus.getClimate().getProperty(property);
     }
 
-    @GetMapping("/current/climate")
-    public Climate getCurrentClimate()
+    @GetMapping(value="/current/climate", produces="application/json")
+    public String getCurrentClimate()
     {
-        return currentStatus.getClimate();
+        return new Gson().toJson(currentStatus.getClimate());
     }
 
     @GetMapping(value = "/energy", headers="Accept=application/json")
